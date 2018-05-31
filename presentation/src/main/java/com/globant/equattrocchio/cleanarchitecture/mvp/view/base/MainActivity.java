@@ -17,18 +17,15 @@ import butterknife.BindView;
 public class MainActivity extends Activity {
 
     private ImagesPresenter presenter;
-//    private GetLatestImagesUseCase getLatestImagesUseCase;
-    private GetJsonUseCase getJsonUseCase;
-    @BindView(R.id.tv_incoming_json) TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        getLatestImagesUseCase = new GetLatestImagesUseCase(new ImagesServicesImpl());
+//        GetLatestImagesUseCase getLatestImagesUseCase = new GetLatestImagesUseCase(new ImagesServicesImpl());
 //        presenter = new ImagesPresenter(new ImagesView(this),getLatestImagesUseCase);
-        getJsonUseCase = new GetJsonUseCase(new ImagesServicesImpl());
+        GetJsonUseCase getJsonUseCase = new GetJsonUseCase(new ImagesServicesImpl());
         presenter = new ImagesPresenter(new ImagesView(this),getJsonUseCase);
 
     }
