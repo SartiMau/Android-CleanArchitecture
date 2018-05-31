@@ -16,8 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ImagesServicesImpl implements ImagesServices {
 
-    //private static final String URL= "http://splashbase.co/";
-    private static final String URL= "http://google.com/";
+    private static final String URL= "http://splashbase.co/";
 
     @Override
     public void getLatestImages(Observer<Boolean> observer) {
@@ -59,8 +58,7 @@ public class ImagesServicesImpl implements ImagesServices {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
-                    String json =  response.body().string();
-                    observer.onNext(json);
+                    observer.onNext(response.body().string());
                 } catch (IOException e) {
                     e.printStackTrace();
                     onFailure(call, e);
