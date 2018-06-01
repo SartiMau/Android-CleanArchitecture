@@ -29,24 +29,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @NonNull
     @Override
     public RecyclerViewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //crea el ViewHolder
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card,parent,false);
         return new RecyclerViewViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewViewHolder holder, int position) {
-        //carga los datos, popula la lista
         holder.getCardImageId().setText("Image ID: " + images.get(position).getId());
-        Glide
-                .with(context)
+        Glide.with(context)
                 .load(images.get(position).getUrl())
                 .into(holder.getCardImage());
     }
 
     @Override
     public int getItemCount() {
-        //es la cantidad de elementos de la lista
         return images.size();
     }
 

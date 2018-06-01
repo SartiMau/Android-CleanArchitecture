@@ -22,36 +22,6 @@ public class ImagesServicesImpl implements ImagesServices {
 
     private static final String URL= "http://splashbase.co/";
 
-//    This is from the second Module's item
-    @Override
-    public void getJSON(final Observer<String> observer) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
-                .build();
-
-        SplashbaseApi api  = retrofit.create(SplashbaseApi.class);
-
-        Call<ResponseBody> call = api.getJSON();
-
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    observer.onNext(response.body().string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    onFailure(call, e);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                observer.onError(t);
-            }
-        });
-    }
-
-//    This is from the third Module's item
     @Override
     public void getLatestImages(final Observer<List<ImageEntity>> observer) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -66,14 +36,11 @@ public class ImagesServicesImpl implements ImagesServices {
         call.enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
-                //todo: show the response.body() on the ui
-
-                observer.onNext(parseImageDataDomain(response.body()));
+                observer.onNext(transform(response.body()));
             }
 
             @Override
             public void onFailure(Call<Result> call, Throwable t) {
-                //todo: update the UI with a connection error message
                 observer.onError(t);
             }
         });
@@ -81,7 +48,7 @@ public class ImagesServicesImpl implements ImagesServices {
 
     }
 
-    private List<ImageEntity> parseImageDataDomain(Result result) {
+    private List<ImageEntity> transform(Result result) {
         List<ImageEntity> images = new ArrayList<ImageEntity>();
         for (Image image : result.getImages()) {
             images.add(new ImageEntity(image.getId(), image.getUrl()));

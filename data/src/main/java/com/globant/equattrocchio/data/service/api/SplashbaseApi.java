@@ -8,11 +8,6 @@ import retrofit2.http.GET;
 
 public interface SplashbaseApi {
 
-//    This is from the second Module's item
-    @GET("api/v1/images/latest")
-    Call<ResponseBody> getJSON();
-
-//    This is from the third Module's item
     @GET("api/v1/images/latest")
     Call<Result> getImages();
 }

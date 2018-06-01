@@ -8,8 +8,5 @@ import io.reactivex.Observer;
 
 public interface ImagesServices {
 
-//    This is from the first Module's item
-    void getJSON(Observer<String> observer);
-
     void getLatestImages(Observer<List<ImageEntity>> observer);
 }
