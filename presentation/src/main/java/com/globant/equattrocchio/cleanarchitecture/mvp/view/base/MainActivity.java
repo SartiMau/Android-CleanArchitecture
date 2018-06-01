@@ -23,11 +23,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        GetLatestImagesUseCase getLatestImagesUseCase = new GetLatestImagesUseCase(new ImagesServicesImpl());
-//        presenter = new ImagesPresenter(new ImagesView(this),getLatestImagesUseCase);
-        GetJsonUseCase getJsonUseCase = new GetJsonUseCase(new ImagesServicesImpl());
-        presenter = new ImagesPresenter(new ImagesView(this),getJsonUseCase);
+//        This is from the second Module's item
+//        GetJsonUseCase getJsonUseCase = new GetJsonUseCase(new ImagesServicesImpl());
+//        presenter = new ImagesPresenter(new ImagesView(this),getJsonUseCase);
 
+//        This is from the third Module's item
+        GetLatestImagesUseCase getLatestImagesUseCase = new GetLatestImagesUseCase(new ImagesServicesImpl());
+        presenter = new ImagesPresenter(new ImagesView(this),getLatestImagesUseCase);
     }
 
     @Override

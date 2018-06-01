@@ -5,81 +5,80 @@ import android.app.Activity;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.RxBus;
 import com.globant.equattrocchio.cleanarchitecture.mvp.view.ImagesView;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.CallServiceButtonObserver;
-import com.globant.equattrocchio.data.ImagesServicesImpl;
-import com.globant.equattrocchio.domain.GetJsonUseCase;
+import com.globant.equattrocchio.data.response.Result;
 import com.globant.equattrocchio.domain.GetLatestImagesUseCase;
+import com.globant.equattrocchio.domain.enities.ImageEntity;
+
+import java.util.List;
 
 import io.reactivex.annotations.NonNull;
-import io.reactivex.observers.DefaultObserver;
 import io.reactivex.observers.DisposableObserver;
 
 public class ImagesPresenter {
 
     private ImagesView view;
-//    private GetLatestImagesUseCase getLatestImagesUseCase;
-    private GetJsonUseCase getJsonUseCase;
 
-//    public ImagesPresenter(ImagesView view, GetLatestImagesUseCase getLatestImagesUseCase) {
+//    This is from the second Module's item
+//    private GetJsonUseCase getJsonUseCase;
+
+//    This is from the third Module's item
+    private GetLatestImagesUseCase getLatestImagesUseCase;
+
+//    This is from the second Module's item
+//    public ImagesPresenter(ImagesView view, GetJsonUseCase getJsonUseCase) {
 //        this.view = view;
-//        this.getLatestImagesUseCase = getLatestImagesUseCase;
+//        this.getJsonUseCase = getJsonUseCase;
 //    }
 
-
-    public ImagesPresenter(ImagesView view, GetJsonUseCase getJsonUseCase) {
+//    This is from the third Module's item
+    public ImagesPresenter(ImagesView view, GetLatestImagesUseCase getLatestImagesUseCase) {
         this.view = view;
-        this.getJsonUseCase = getJsonUseCase;
+        this.getLatestImagesUseCase = getLatestImagesUseCase;
     }
 
     public void onCountButtonPressed() {
-
         view.showText(new String(""));//todo: aca va el string que me devuelva el execute del usecase
-
-
     }
 
     private void onCallServiceButtonPressed() {
 
-//        getLatestImagesUseCase.execute(new DisposableObserver<Boolean>() {
+//        This is from the second Module's item
+//        getJsonUseCase.execute(new DisposableObserver<String>() {
 //            @Override
-//            public void onNext(@NonNull Boolean aBoolean) {
-//                loadFromPreferences();
+//            public void onNext(@NonNull String s) {
+//                view.showText(s);
 //            }
 //
 //            @Override
-//            public void onError(@NonNull Throwable e) {
-//               view.showError();
+//            public void onError(Throwable e) {
+//                view.showError();
 //            }
 //
 //            @Override
 //            public void onComplete() {
-//                new ImagesServicesImpl().getLatestImages(null);
+//
 //            }
-//        },null);
+//        }, null);
 
-        getJsonUseCase.execute(new DisposableObserver<String>() {
+//        This is from the third Module's item
+        getLatestImagesUseCase.execute(new DisposableObserver<List<ImageEntity>>() {
             @Override
-            public void onNext(@NonNull String s) {
-                view.showText(s);
+            public void onNext(@NonNull List<ImageEntity> images) {
+                view.showImagesInCardView(images);
             }
 
             @Override
-            public void onError(Throwable e) {
-                view.showError();
+            public void onError(@NonNull Throwable e) {
+               view.showError();
             }
 
             @Override
             public void onComplete() {
 
             }
-        }, null);
-
-
+        },null);
 
         //todo acá tengo que llamar a la domain layer para que llame a la data layer y haga el llamdo al servicio
-    }
-
-    private void loadFromPreferences(){
-       // view.showText("EL TEXTO QUE ME TRAGIA DE LAS PREFERENCES");// todo: traerme el texto de las preferences
     }
 
 

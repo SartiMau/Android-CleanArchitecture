@@ -1,10 +1,14 @@
 package com.globant.equattrocchio.data;
 
+import com.globant.equattrocchio.data.response.Image;
 import com.globant.equattrocchio.data.response.Result;
 import com.globant.equattrocchio.data.service.api.SplashbaseApi;
+import com.globant.equattrocchio.domain.enities.ImageEntity;
 import com.globant.equattrocchio.domain.service.ImagesServices;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Observer;
 import okhttp3.ResponseBody;
@@ -18,32 +22,7 @@ public class ImagesServicesImpl implements ImagesServices {
 
     private static final String URL= "http://splashbase.co/";
 
-    @Override
-    public void getLatestImages(Observer<Boolean> observer) {
-        Retrofit retrofit = new Retrofit.Builder().
-                baseUrl(URL).
-                addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        SplashbaseApi api  = retrofit.create(SplashbaseApi.class);
-
-        Call<Result> call = api.getImages();
-
-        call.enqueue(new Callback<Result>() {
-            @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
-                //todo: show the response.body() on the ui
-            }
-
-            @Override
-            public void onFailure(Call<Result> call, Throwable t) {
-                //todo: update the UI with a connection error message
-            }
-        });
-
-
-    }
-
+//    This is from the second Module's item
     @Override
     public void getJSON(final Observer<String> observer) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -70,5 +49,44 @@ public class ImagesServicesImpl implements ImagesServices {
                 observer.onError(t);
             }
         });
+    }
+
+//    This is from the third Module's item
+    @Override
+    public void getLatestImages(final Observer<List<ImageEntity>> observer) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        SplashbaseApi api  = retrofit.create(SplashbaseApi.class);
+
+        Call<Result> call = api.getImages();
+
+        call.enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                //todo: show the response.body() on the ui
+
+                observer.onNext(parseImageDataDomain(response.body()));
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                //todo: update the UI with a connection error message
+                observer.onError(t);
+            }
+        });
+
+
+    }
+
+    private List<ImageEntity> parseImageDataDomain(Result result) {
+        List<ImageEntity> images = new ArrayList<ImageEntity>();
+        for (Image image : result.getImages()) {
+            images.add(new ImageEntity(image.getId(), image.getUrl()));
+        }
+
+        return images;
     }
 }
