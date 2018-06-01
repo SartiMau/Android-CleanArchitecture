@@ -6,6 +6,7 @@ import com.globant.equattrocchio.cleanarchitecture.util.bus.RxBus;
 import com.globant.equattrocchio.cleanarchitecture.mvp.view.ImagesView;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.CallServiceButtonObserver;
 import com.globant.equattrocchio.data.ImagesServicesImpl;
+import com.globant.equattrocchio.domain.GetJsonUseCase;
 import com.globant.equattrocchio.domain.GetLatestImagesUseCase;
 
 import io.reactivex.annotations.NonNull;
@@ -15,12 +16,18 @@ import io.reactivex.observers.DisposableObserver;
 public class ImagesPresenter {
 
     private ImagesView view;
-    private GetLatestImagesUseCase getLatestImagesUseCase;
+//    private GetLatestImagesUseCase getLatestImagesUseCase;
+    private GetJsonUseCase getJsonUseCase;
+
+//    public ImagesPresenter(ImagesView view, GetLatestImagesUseCase getLatestImagesUseCase) {
+//        this.view = view;
+//        this.getLatestImagesUseCase = getLatestImagesUseCase;
+//    }
 
 
-    public ImagesPresenter(ImagesView view, GetLatestImagesUseCase getLatestImagesUseCase) {
+    public ImagesPresenter(ImagesView view, GetJsonUseCase getJsonUseCase) {
         this.view = view;
-        this.getLatestImagesUseCase = getLatestImagesUseCase;
+        this.getJsonUseCase = getJsonUseCase;
     }
 
     public void onCountButtonPressed() {
@@ -32,22 +39,39 @@ public class ImagesPresenter {
 
     private void onCallServiceButtonPressed() {
 
-        getLatestImagesUseCase.execute(new DisposableObserver<Boolean>() {
+//        getLatestImagesUseCase.execute(new DisposableObserver<Boolean>() {
+//            @Override
+//            public void onNext(@NonNull Boolean aBoolean) {
+//                loadFromPreferences();
+//            }
+//
+//            @Override
+//            public void onError(@NonNull Throwable e) {
+//               view.showError();
+//            }
+//
+//            @Override
+//            public void onComplete() {
+//                new ImagesServicesImpl().getLatestImages(null);
+//            }
+//        },null);
+
+        getJsonUseCase.execute(new DisposableObserver<String>() {
             @Override
-            public void onNext(@NonNull Boolean aBoolean) {
-                loadFromPreferences();
+            public void onNext(@NonNull String s) {
+                view.showText(s);
             }
 
             @Override
-            public void onError(@NonNull Throwable e) {
-               view.showError();
+            public void onError(Throwable e) {
+                view.showError();
             }
 
             @Override
             public void onComplete() {
-                new ImagesServicesImpl().getLatestImages(null);
+
             }
-        },null);
+        }, null);
 
 
 

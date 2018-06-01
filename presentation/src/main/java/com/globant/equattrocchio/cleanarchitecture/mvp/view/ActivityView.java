@@ -1,5 +1,6 @@
 package com.globant.equattrocchio.cleanarchitecture.mvp.view;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -8,14 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import java.lang.ref.WeakReference;
 
 public class ActivityView {
-    private WeakReference<AppCompatActivity> activityRef;
+    private WeakReference<Activity> activityRef;
 
-    public ActivityView(AppCompatActivity activity) {
+    public ActivityView(Activity activity) {
         activityRef = new WeakReference<>(activity);
     }
 
     @Nullable
-    public AppCompatActivity getActivity() {
+    public Activity getActivity() {
         return activityRef.get();
     }
 
@@ -26,7 +27,7 @@ public class ActivityView {
 
     @Nullable
     public FragmentManager getFragmentManager() {
-        AppCompatActivity activity = getActivity();
+        Activity activity = getActivity();
         return (activity != null) ? activity.getFragmentManager() : null;
     }
 }
