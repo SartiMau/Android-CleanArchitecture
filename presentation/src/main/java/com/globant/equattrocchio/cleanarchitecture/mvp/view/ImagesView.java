@@ -1,16 +1,16 @@
 package com.globant.equattrocchio.cleanarchitecture.mvp.view;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.globant.equattrocchio.cleanarchitecture.R;
-import com.globant.equattrocchio.cleanarchitecture.mvp.view.adapters.RecyclerViewAdapter;
+import com.globant.equattrocchio.cleanarchitecture.mvp.view.adapters.ImagesAdapter;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.RxBus;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.CallServiceButtonObserver;
-import com.globant.equattrocchio.domain.enities.ImageEntity;
+import com.globant.equattrocchio.domain.enities.Image;
 
 import java.util.List;
 
@@ -42,8 +42,17 @@ public class ImagesView extends ActivityView {
         tvlabel.setText(R.string.connection_error);
     }
 
-    public void showImagesInCardView(List<ImageEntity> images) {
-        recyclerView.setAdapter(new RecyclerViewAdapter(this.getContext(), images));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+    public void hideError() {
+        tvlabel.setEnabled(false);
+        tvlabel.setText("");
+    }
+
+    public void showImagesInCardView(List<Image> images) {
+        Context context = getContext();
+
+        if(context != null){
+            recyclerView.setAdapter(new ImagesAdapter(context, images));
+            recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        }
     }
 }

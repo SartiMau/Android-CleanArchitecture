@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         GetLatestImagesUseCase getLatestImagesUseCase = new GetLatestImagesUseCase(new ImagesServicesImpl());
-        presenter = new ImagesPresenter(new ImagesView(this),getLatestImagesUseCase);
+        presenter = new ImagesPresenter(new ImagesView(this), getLatestImagesUseCase);
     }
 
     @Override

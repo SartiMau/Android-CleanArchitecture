@@ -5,9 +5,8 @@ import android.app.Activity;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.RxBus;
 import com.globant.equattrocchio.cleanarchitecture.mvp.view.ImagesView;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.CallServiceButtonObserver;
-import com.globant.equattrocchio.data.response.Result;
 import com.globant.equattrocchio.domain.GetLatestImagesUseCase;
-import com.globant.equattrocchio.domain.enities.ImageEntity;
+import com.globant.equattrocchio.domain.enities.Image;
 
 import java.util.List;
 
@@ -26,9 +25,11 @@ public class ImagesPresenter {
 
     private void onCallServiceButtonPressed() {
 
-        getLatestImagesUseCase.execute(new DisposableObserver<List<ImageEntity>>() {
+        view.hideError();
+
+        getLatestImagesUseCase.execute(new DisposableObserver<List<Image>>() {
             @Override
-            public void onNext(@NonNull List<ImageEntity> images) {
+            public void onNext(@NonNull List<Image> images) {
                 view.showImagesInCardView(images);
             }
 

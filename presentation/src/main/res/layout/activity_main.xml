@@ -16,7 +16,7 @@
             android:id="@+id/tv_incoming_json"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/incoming_json"
+            android:text=""
             android:enabled="false"/>
 
         <android.support.v7.widget.RecyclerView
@@ -24,12 +24,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             card_view:cardUseCompatPadding="true"
-            card_view:cardElevation="5dp"
-            card_view:cardCornerRadius="5dp"
+            card_view:cardElevation="@dimen/recycler_card_elevation"
+            card_view:cardCornerRadius="@dimen/recycler_card_corner_radius"
             android:scrollbars="vertical"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginRight="6dp"
+            android:layout_marginLeft="@dimen/recycler_margin_left"
+            android:layout_marginTop="@dimen/recycler_margin_top"
+            android:layout_marginRight="@dimen/recycler_margin_right"
             />
 
 </LinearLayout>

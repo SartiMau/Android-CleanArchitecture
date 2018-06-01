@@ -1,11 +1,11 @@
 package com.globant.equattrocchio.domain.enities;
 
-public class ImageEntity {
+public class Image {
 
     private Integer id;
     private String url;
 
-    public ImageEntity(Integer id, String url) {
+    public Image(Integer id, String url) {
         this.id = id;
         this.url = url;
     }

@@ -1,17 +1,15 @@
 package com.globant.equattrocchio.data;
 
-import com.globant.equattrocchio.data.response.Image;
+import com.globant.equattrocchio.data.response.ImageResponse;
 import com.globant.equattrocchio.data.response.Result;
 import com.globant.equattrocchio.data.service.api.SplashbaseApi;
-import com.globant.equattrocchio.domain.enities.ImageEntity;
+import com.globant.equattrocchio.domain.enities.Image;
 import com.globant.equattrocchio.domain.service.ImagesServices;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,7 +21,7 @@ public class ImagesServicesImpl implements ImagesServices {
     private static final String URL= "http://splashbase.co/";
 
     @Override
-    public void getLatestImages(final Observer<List<ImageEntity>> observer) {
+    public void getLatestImages(final Observer<List<Image>> observer) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -48,10 +46,10 @@ public class ImagesServicesImpl implements ImagesServices {
 
     }
 
-    private List<ImageEntity> transform(Result result) {
-        List<ImageEntity> images = new ArrayList<ImageEntity>();
-        for (Image image : result.getImages()) {
-            images.add(new ImageEntity(image.getId(), image.getUrl()));
+    private List<Image> transform(Result result) {
+        List<Image> images = new ArrayList<Image>();
+        for (ImageResponse imageResponse : result.getImages()) {
+            images.add(new Image(imageResponse.getId(), imageResponse.getUrl()));
         }
 
         return images;
