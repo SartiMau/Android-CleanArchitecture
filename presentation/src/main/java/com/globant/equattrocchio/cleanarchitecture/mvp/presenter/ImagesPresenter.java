@@ -5,81 +5,44 @@ import android.app.Activity;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.RxBus;
 import com.globant.equattrocchio.cleanarchitecture.mvp.view.ImagesView;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.CallServiceButtonObserver;
-import com.globant.equattrocchio.data.ImagesServicesImpl;
-import com.globant.equattrocchio.domain.GetJsonUseCase;
 import com.globant.equattrocchio.domain.GetLatestImagesUseCase;
+import com.globant.equattrocchio.domain.enities.Image;
+
+import java.util.List;
 
 import io.reactivex.annotations.NonNull;
-import io.reactivex.observers.DefaultObserver;
 import io.reactivex.observers.DisposableObserver;
 
 public class ImagesPresenter {
 
     private ImagesView view;
-//    private GetLatestImagesUseCase getLatestImagesUseCase;
-    private GetJsonUseCase getJsonUseCase;
+    private GetLatestImagesUseCase getLatestImagesUseCase;
 
-//    public ImagesPresenter(ImagesView view, GetLatestImagesUseCase getLatestImagesUseCase) {
-//        this.view = view;
-//        this.getLatestImagesUseCase = getLatestImagesUseCase;
-//    }
-
-
-    public ImagesPresenter(ImagesView view, GetJsonUseCase getJsonUseCase) {
+    public ImagesPresenter(ImagesView view, GetLatestImagesUseCase getLatestImagesUseCase) {
         this.view = view;
-        this.getJsonUseCase = getJsonUseCase;
-    }
-
-    public void onCountButtonPressed() {
-
-        view.showText(new String(""));//todo: aca va el string que me devuelva el execute del usecase
-
-
+        this.getLatestImagesUseCase = getLatestImagesUseCase;
     }
 
     private void onCallServiceButtonPressed() {
 
-//        getLatestImagesUseCase.execute(new DisposableObserver<Boolean>() {
-//            @Override
-//            public void onNext(@NonNull Boolean aBoolean) {
-//                loadFromPreferences();
-//            }
-//
-//            @Override
-//            public void onError(@NonNull Throwable e) {
-//               view.showError();
-//            }
-//
-//            @Override
-//            public void onComplete() {
-//                new ImagesServicesImpl().getLatestImages(null);
-//            }
-//        },null);
+        view.hideError();
 
-        getJsonUseCase.execute(new DisposableObserver<String>() {
+        getLatestImagesUseCase.execute(new DisposableObserver<List<Image>>() {
             @Override
-            public void onNext(@NonNull String s) {
-                view.showText(s);
+            public void onNext(@NonNull List<Image> images) {
+                view.showImagesInCardView(images);
             }
 
             @Override
-            public void onError(Throwable e) {
-                view.showError();
+            public void onError(@NonNull Throwable e) {
+               view.showError();
             }
 
             @Override
             public void onComplete() {
 
             }
-        }, null);
-
-
-
-        //todo acá tengo que llamar a la domain layer para que llame a la data layer y haga el llamdo al servicio
-    }
-
-    private void loadFromPreferences(){
-       // view.showText("EL TEXTO QUE ME TRAGIA DE LAS PREFERENCES");// todo: traerme el texto de las preferences
+        },null);
     }
 
 

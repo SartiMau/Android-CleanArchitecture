@@ -1,13 +1,15 @@
 package com.globant.equattrocchio.data;
 
-import com.globant.equattrocchio.data.response.Result;
+import com.globant.equattrocchio.data.response.ImageResponse;
+import com.globant.equattrocchio.data.response.GetLatestImagesResponse;
 import com.globant.equattrocchio.data.service.api.SplashbaseApi;
+import com.globant.equattrocchio.domain.enities.Image;
 import com.globant.equattrocchio.domain.service.ImagesServices;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Observer;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,56 +21,37 @@ public class ImagesServicesImpl implements ImagesServices {
     private static final String URL= "http://splashbase.co/";
 
     @Override
-    public void getLatestImages(Observer<Boolean> observer) {
-        Retrofit retrofit = new Retrofit.Builder().
-                baseUrl(URL).
-                addConverterFactory(GsonConverterFactory.create())
+    public void getLatestImages(final Observer<List<Image>> observer) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URL)
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         SplashbaseApi api  = retrofit.create(SplashbaseApi.class);
 
-        Call<Result> call = api.getImages();
+        Call<GetLatestImagesResponse> call = api.getImages();
 
-        call.enqueue(new Callback<Result>() {
+        call.enqueue(new Callback<GetLatestImagesResponse>() {
             @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
-                //todo: show the response.body() on the ui
+            public void onResponse(Call<GetLatestImagesResponse> call, Response<GetLatestImagesResponse> response) {
+                observer.onNext(transform(response.body()));
             }
 
             @Override
-            public void onFailure(Call<Result> call, Throwable t) {
-                //todo: update the UI with a connection error message
+            public void onFailure(Call<GetLatestImagesResponse> call, Throwable t) {
+                observer.onError(t);
             }
         });
 
 
     }
 
-    @Override
-    public void getJSON(final Observer<String> observer) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
-                .build();
+    private List<Image> transform(GetLatestImagesResponse getLatestImagesResponse) {
+        List<Image> images = new ArrayList<Image>();
+        for (ImageResponse imageResponse : getLatestImagesResponse.getImages()) {
+            images.add(new Image(imageResponse.getId(), imageResponse.getUrl()));
+        }
 
-        SplashbaseApi api  = retrofit.create(SplashbaseApi.class);
-
-        Call<ResponseBody> call = api.getJSON();
-
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    observer.onNext(response.body().string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    onFailure(call, e);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                observer.onError(t);
-            }
-        });
+        return images;
     }
 }
