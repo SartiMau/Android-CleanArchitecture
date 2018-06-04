@@ -15,7 +15,7 @@ public class ImageResponse {
     private String largeUrl;
     @SerializedName("source_id")
     @Expose
-    private Object sourceId;
+    private String sourceId;
 
     public Integer getId() {
         return id;
@@ -41,11 +41,11 @@ public class ImageResponse {
         this.largeUrl = largeUrl;
     }
 
-    public Object getSourceId() {
+    public String getSourceId() {
         return sourceId;
     }
 
-    public void setSourceId(Object sourceId) {
+    public void setSourceId(String sourceId) {
         this.sourceId = sourceId;
     }
 

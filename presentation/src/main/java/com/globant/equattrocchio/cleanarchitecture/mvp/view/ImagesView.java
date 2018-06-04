@@ -1,15 +1,17 @@
 package com.globant.equattrocchio.cleanarchitecture.mvp.view;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.globant.equattrocchio.cleanarchitecture.R;
 import com.globant.equattrocchio.cleanarchitecture.mvp.view.adapters.ImagesAdapter;
+import com.globant.equattrocchio.cleanarchitecture.mvp.view.base.ImageDialogFragment;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.RxBus;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.CallServiceButtonObserver;
+import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.CallServiceCardObserver;
 import com.globant.equattrocchio.domain.enities.Image;
 
 import java.util.List;
@@ -22,6 +24,8 @@ public class ImagesView extends ActivityView {
 
     @BindView(R.id.tv_incoming_json) TextView tvlabel;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
+
+    private final OnImageClick onImageClick = new OnImageClick();
 
     public ImagesView(Activity activity) {
         super(activity);
@@ -48,7 +52,23 @@ public class ImagesView extends ActivityView {
     }
 
     public void showImagesInCardView(List<Image> images) {
-        recyclerView.setAdapter(new ImagesAdapter(images));
+        recyclerView.setAdapter(new ImagesAdapter(images, onImageClick));
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
+
+    public void showImagesInFragmentDialog(Image image){
+        ImageDialogFragment.newInstance(image).show(getFragmentManager(), getContext().getResources().getString(R.string.image_dialog));
+    }
+
+
+    static class OnImageClick implements ImagesAdapter.OnImageClickListener {
+
+        @Override
+        public void onClick(Image image) {
+            RxBus.post(new CallServiceCardObserver.CallServiceCardPressed(image.getId()));
+        }
+    }
 }
+
+
+

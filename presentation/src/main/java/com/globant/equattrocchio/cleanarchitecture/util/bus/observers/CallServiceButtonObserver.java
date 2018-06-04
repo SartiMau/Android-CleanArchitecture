@@ -6,5 +6,7 @@ public abstract class CallServiceButtonObserver extends BusObserver<CallServiceB
     }
 
     public static class CallServiceButtonPressed {
+
+
     }
 }
