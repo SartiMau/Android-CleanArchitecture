@@ -1,7 +1,7 @@
 package com.globant.equattrocchio.data;
 
 import com.globant.equattrocchio.data.response.ImageResponse;
-import com.globant.equattrocchio.data.response.Result;
+import com.globant.equattrocchio.data.response.GetLatestImagesResponse;
 import com.globant.equattrocchio.data.service.api.SplashbaseApi;
 import com.globant.equattrocchio.domain.enities.Image;
 import com.globant.equattrocchio.domain.service.ImagesServices;
@@ -29,16 +29,16 @@ public class ImagesServicesImpl implements ImagesServices {
 
         SplashbaseApi api  = retrofit.create(SplashbaseApi.class);
 
-        Call<Result> call = api.getImages();
+        Call<GetLatestImagesResponse> call = api.getImages();
 
-        call.enqueue(new Callback<Result>() {
+        call.enqueue(new Callback<GetLatestImagesResponse>() {
             @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
+            public void onResponse(Call<GetLatestImagesResponse> call, Response<GetLatestImagesResponse> response) {
                 observer.onNext(transform(response.body()));
             }
 
             @Override
-            public void onFailure(Call<Result> call, Throwable t) {
+            public void onFailure(Call<GetLatestImagesResponse> call, Throwable t) {
                 observer.onError(t);
             }
         });
@@ -46,9 +46,9 @@ public class ImagesServicesImpl implements ImagesServices {
 
     }
 
-    private List<Image> transform(Result result) {
+    private List<Image> transform(GetLatestImagesResponse getLatestImagesResponse) {
         List<Image> images = new ArrayList<Image>();
-        for (ImageResponse imageResponse : result.getImages()) {
+        for (ImageResponse imageResponse : getLatestImagesResponse.getImages()) {
             images.add(new Image(imageResponse.getId(), imageResponse.getUrl()));
         }
 

@@ -48,11 +48,7 @@ public class ImagesView extends ActivityView {
     }
 
     public void showImagesInCardView(List<Image> images) {
-        Context context = getContext();
-
-        if(context != null){
-            recyclerView.setAdapter(new ImagesAdapter(context, images));
-            recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        }
+        recyclerView.setAdapter(new ImagesAdapter(images));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
 }

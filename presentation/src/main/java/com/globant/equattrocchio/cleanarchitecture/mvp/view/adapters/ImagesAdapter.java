@@ -17,12 +17,13 @@ import com.globant.equattrocchio.domain.enities.Image;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImagesViewHolder> {
 
     private List<Image> images;
 
-    public ImagesAdapter(Context context, List<Image> images) {
+    public ImagesAdapter(List<Image> images) {
         this.images = images;
     }
 
@@ -35,7 +36,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImagesView
 
     @Override
     public void onBindViewHolder(@NonNull ImagesViewHolder holder, int position) {
-        holder.cardImageId.setText(String.format("{1}{2}", R.string.image_id, images.get(position).getId()));
+        holder.cardImageId.setText(String.format("%s %d", holder.itemView.getContext().getResources().getString(R.string.image_id), images.get(position).getId()));
 
         Context context = holder.cardImage.getContext();
         if(context != null){
@@ -50,13 +51,14 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImagesView
         return images.size();
     }
 
-    class ImagesViewHolder extends RecyclerView.ViewHolder{
+    static class ImagesViewHolder extends RecyclerView.ViewHolder{
 
         @BindView(R.id.cardImageId) TextView cardImageId;
         @BindView(R.id.cardImage) ImageView cardImage;
 
         public ImagesViewHolder(View parent) {
             super(parent);
+            ButterKnife.bind(this, parent);
         }
     }
 }
