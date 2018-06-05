@@ -6,4 +6,6 @@
 
     <string name="image_id">Image ID: </string>
     <string name="empty_string"></string>
+    <string name="close_message">CLOSE</string>
+    <string name="image_dialog">IMAGE</string>
 </resources>

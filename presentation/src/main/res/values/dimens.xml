@@ -21,4 +21,5 @@
     <dimen name="card_text_padding_top">5dp</dimen>
     <dimen name="card_text_size">15sp</dimen>
 
+    <dimen name="dialog_url_margin_top">20dp</dimen>
 </resources>

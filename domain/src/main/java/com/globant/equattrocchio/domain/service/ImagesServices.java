@@ -10,4 +10,6 @@ import io.reactivex.observers.DisposableObserver;
 public interface ImagesServices {
 
     void getLatestImages(Observer<List<Image>> observer);
+
+    void getSpecificImage(Observer<Image> observer, int id);
 }

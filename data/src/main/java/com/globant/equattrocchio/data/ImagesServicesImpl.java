@@ -42,8 +42,36 @@ public class ImagesServicesImpl implements ImagesServices {
                 observer.onError(t);
             }
         });
+    }
 
+    @Override
+    public void getSpecificImage(final Observer<Image> observer, int id) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
+        SplashbaseApi api  = retrofit.create(SplashbaseApi.class);
+
+        Call<ImageResponse> call = api.getImage(id);
+
+        call.enqueue(new Callback<ImageResponse>() {
+            @Override
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+                observer.onNext(transformImage(response.body()));
+            }
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                observer.onError(t);
+            }
+        });
+    }
+
+    private Image transformImage(ImageResponse imageResponse) {
+        Image image = new Image(imageResponse.getId(), imageResponse.getUrl(), imageResponse.getLargeUrl());
+
+        return image;
     }
 
     private List<Image> transform(GetLatestImagesResponse getLatestImagesResponse) {

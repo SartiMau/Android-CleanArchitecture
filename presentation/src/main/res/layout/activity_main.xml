@@ -29,7 +29,6 @@
             android:scrollbars="vertical"
             android:layout_marginLeft="@dimen/recycler_margin_left"
             android:layout_marginTop="@dimen/recycler_margin_top"
-            android:layout_marginRight="@dimen/recycler_margin_right"
-            />
+            android:layout_marginRight="@dimen/recycler_margin_right"/>
 
 </LinearLayout>
