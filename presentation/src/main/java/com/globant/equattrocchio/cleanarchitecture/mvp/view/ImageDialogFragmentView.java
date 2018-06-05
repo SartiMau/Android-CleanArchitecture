@@ -10,7 +10,7 @@ import com.globant.equattrocchio.cleanarchitecture.mvp.view.base.ImageDialogFrag
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ImageDialogFragmentView extends FragmentView{
+public class ImageDialogFragmentView extends FragmentView<ImageDialogFragment>{
 
     @BindView(R.id.cardImage) ImageView cardImage;
     @BindView(R.id.cardImageId) TextView cardImageId;

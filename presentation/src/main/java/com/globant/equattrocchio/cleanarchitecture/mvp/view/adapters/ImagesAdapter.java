@@ -44,9 +44,11 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImagesView
 
     @Override
     public void onBindViewHolder(@NonNull ImagesViewHolder holder, int position) {
-        holder.cardImageId.setText(String.format("%s %d", holder.itemView.getContext().getResources().getString(R.string.image_id), images.get(position).getId()));
+        int id = images.get(position).getId();
 
-        holder.imageId = images.get(position).getId();
+        holder.cardImageId.setText(String.format("%s %d", holder.itemView.getContext().getResources().getString(R.string.image_id), id));
+
+        holder.imageId = id;
 
         Context context = holder.cardImage.getContext();
         if(context != null){

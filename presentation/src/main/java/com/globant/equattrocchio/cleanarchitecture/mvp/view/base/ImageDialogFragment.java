@@ -26,7 +26,6 @@ public class ImageDialogFragment extends DialogFragment {
     private int imageId;
     private String imageUrl;
 
-    private ImageDialogFragmentModel model;
     private ImageDialogFragmentPresenter presenter;
 
     public ImageDialogFragment() {
