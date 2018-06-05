@@ -18,5 +18,4 @@ public class GetSpecificImageUseCase extends UseCase<Image,Integer> {
         void buildUseCaseObservable(DisposableObserver<Image> observer, Integer id) {
             imagesServices.getSpecificImage(observer, id);
         }
-
 }

@@ -13,5 +13,5 @@ public interface SplashbaseApi {
     Call<GetLatestImagesResponse> getImages();
 
     @GET("api/v1/images/{id}")
-    Call<ImageResponse> getImages(@Path("id") Integer id);
+    Call<ImageResponse> getImage(@Path("id") int id);
 }

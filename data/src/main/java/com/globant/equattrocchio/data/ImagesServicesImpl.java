@@ -45,7 +45,7 @@ public class ImagesServicesImpl implements ImagesServices {
     }
 
     @Override
-    public void getSpecificImage(final Observer<Image> observer, Integer id) {
+    public void getSpecificImage(final Observer<Image> observer, int id) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -53,7 +53,7 @@ public class ImagesServicesImpl implements ImagesServices {
 
         SplashbaseApi api  = retrofit.create(SplashbaseApi.class);
 
-        Call<ImageResponse> call = api.getImages(id);
+        Call<ImageResponse> call = api.getImage(id);
 
         call.enqueue(new Callback<ImageResponse>() {
             @Override

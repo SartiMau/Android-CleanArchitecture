@@ -49,7 +49,7 @@ public class ImagesPresenter {
         },null);
     }
 
-    private void onCallServiceCardPressed(Integer id) {
+    private void onCallServiceCardPressed(int id) {
         getSpecificImageUseCase.execute(new DisposableObserver<Image>() {
             @Override
             public void onNext(@NonNull Image images) {

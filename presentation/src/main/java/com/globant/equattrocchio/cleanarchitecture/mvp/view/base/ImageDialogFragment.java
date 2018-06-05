@@ -7,18 +7,16 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.app.DialogFragment;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.ViewGroup;
 
-
-import com.bumptech.glide.Glide;
 import com.globant.equattrocchio.cleanarchitecture.R;
+import com.globant.equattrocchio.cleanarchitecture.mvp.model.ImageDialogFragmentModel;
+import com.globant.equattrocchio.cleanarchitecture.mvp.presenter.ImageDialogFragmentPresenter;
+import com.globant.equattrocchio.cleanarchitecture.mvp.view.ImageDialogFragmentView;
 import com.globant.equattrocchio.domain.enities.Image;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class ImageDialogFragment extends DialogFragment {
 
@@ -28,9 +26,8 @@ public class ImageDialogFragment extends DialogFragment {
     private int imageId;
     private String imageUrl;
 
-    @BindView(R.id.cardImage) ImageView cardImage;
-    @BindView(R.id.cardImageId) TextView cardImageId;
-    @BindView(R.id.cardImageUrl) TextView cardImageUrl;
+    private ImageDialogFragmentModel model;
+    private ImageDialogFragmentPresenter presenter;
 
     public ImageDialogFragment() {
     }
@@ -53,33 +50,16 @@ public class ImageDialogFragment extends DialogFragment {
         return imageDialogFragment;
     }
 
-    @NonNull
+    @Nullable
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        if(getActivity() == null) {
-            throw new IllegalStateException();
-        }
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        return LayoutInflater.from(getActivity()).inflate(R.layout.dialog_image, null);
+    }
 
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_image, null);
-        ButterKnife.bind(this, view);
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        presenter = new ImageDialogFragmentPresenter(new ImageDialogFragmentView(this), new ImageDialogFragmentModel(imageId, imageUrl));
 
-        cardImageId.setText(String.valueOf(imageId));
-        cardImageUrl.setText(imageUrl);
-        Glide.with(view.getContext())
-                .load(imageUrl)
-                .into(cardImage);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        builder.setPositiveButton(R.string.close_message, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .setView(view);
-
-        return builder.create();
-
+        presenter.loadData();
     }
 }
