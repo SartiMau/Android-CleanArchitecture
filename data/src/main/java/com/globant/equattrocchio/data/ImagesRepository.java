@@ -8,7 +8,7 @@ import java.util.List;
 import io.realm.Realm;
 
 
-public class ImageReporsitory {
+public class ImagesRepository {
 
     private static final String ID = "id";
 

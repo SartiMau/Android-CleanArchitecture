@@ -1,7 +1,7 @@
 package com.globant.equattrocchio.data;
 
-import com.globant.equattrocchio.data.response.ImageResponse;
 import com.globant.equattrocchio.data.response.GetLatestImagesResponse;
+import com.globant.equattrocchio.data.response.ImageResponse;
 import com.globant.equattrocchio.data.service.api.SplashbaseApi;
 import com.globant.equattrocchio.domain.enities.Image;
 import com.globant.equattrocchio.domain.service.ImagesServices;
@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ImagesServicesImpl implements ImagesServices {
 
-    private static final String URL= "http://splashbase.co/";
+    private static final String URL = "http://splashbase.co/";
 
     @Override
     public void getLatestImages(final Observer<List<Image>> observer) {
@@ -27,7 +27,7 @@ public class ImagesServicesImpl implements ImagesServices {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        SplashbaseApi api  = retrofit.create(SplashbaseApi.class);
+        SplashbaseApi api = retrofit.create(SplashbaseApi.class);
 
         Call<GetLatestImagesResponse> call = api.getImages();
 
@@ -51,7 +51,7 @@ public class ImagesServicesImpl implements ImagesServices {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        SplashbaseApi api  = retrofit.create(SplashbaseApi.class);
+        SplashbaseApi api = retrofit.create(SplashbaseApi.class);
 
         Call<ImageResponse> call = api.getImage(id);
 
@@ -75,15 +75,15 @@ public class ImagesServicesImpl implements ImagesServices {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        SplashbaseApi api  = retrofit.create(SplashbaseApi.class);
+        SplashbaseApi api = retrofit.create(SplashbaseApi.class);
 
         Call<GetLatestImagesResponse> call = api.getImages();
 
         call.enqueue(new Callback<GetLatestImagesResponse>() {
             @Override
             public void onResponse(Call<GetLatestImagesResponse> call, Response<GetLatestImagesResponse> response) {
-                List<Image> images = transformCompleteImages(response.body());
-                ImageReporsitory.insertImages(images);
+                List<Image> images = transform(response.body());
+                ImagesRepository.insertImages(images);
                 observer.onNext(images);
             }
 
@@ -103,18 +103,8 @@ public class ImagesServicesImpl implements ImagesServices {
     private List<Image> transform(GetLatestImagesResponse getLatestImagesResponse) {
         List<Image> images = new ArrayList<Image>();
         for (ImageResponse imageResponse : getLatestImagesResponse.getImages()) {
-            images.add(new Image(imageResponse.getId(), imageResponse.getUrl()));
-        }
-
-        return images;
-    }
-
-    private List<Image> transformCompleteImages(GetLatestImagesResponse getLatestImagesResponse) {
-        List<Image> images = new ArrayList<Image>();
-        for (ImageResponse imageResponse : getLatestImagesResponse.getImages()) {
             images.add(new Image(imageResponse.getId(), imageResponse.getUrl(), imageResponse.getLargeUrl()));
         }
-
         return images;
     }
 }
