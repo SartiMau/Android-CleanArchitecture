@@ -1,34 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:card_view="http://schemas.android.com/tools">
+    android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_call_service"
-            android:text="@string/call_service"
-            android:layout_width="@dimen/btn_widht"
-            android:layout_height="@dimen/btn_height" />
+    <Button
+        android:id="@+id/btn_call_service"
+        android:layout_width="@dimen/btn_widht"
+        android:layout_height="@dimen/btn_height"
+        android:text="@string/call_service" />
 
-        <TextView
-            android:id="@+id/tv_incoming_json"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_string"
-            android:enabled="false"/>
+    <TextView
+        android:id="@+id/tv_incoming_json"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/empty_string"
+        android:layout_marginTop="@dimen/text_json_margin_top"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            card_view:cardUseCompatPadding="true"
-            card_view:cardElevation="@dimen/recycler_card_elevation"
-            card_view:cardCornerRadius="@dimen/recycler_card_corner_radius"
-            android:scrollbars="vertical"
-            android:layout_marginLeft="@dimen/recycler_margin_left"
-            android:layout_marginTop="@dimen/recycler_margin_top"
-            android:layout_marginRight="@dimen/recycler_margin_right"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/recycler_margin_left"
+        android:layout_marginRight="@dimen/recycler_margin_right"
+        android:layout_marginTop="@dimen/recycler_margin_top"
+        android:scrollbars="vertical"
+        card_view:cardCornerRadius="@dimen/recycler_card_corner_radius"
+        card_view:cardElevation="@dimen/recycler_card_elevation"
+        card_view:cardUseCompatPadding="true" />
 
-</LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabSaveRealm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:clickable="true"
+        app:backgroundTint="@android:color/holo_red_dark"
+        app:srcCompat="@android:drawable/ic_menu_save"
+        android:layout_marginRight="@dimen/fab_margin_right"
+        android:layout_marginBottom="@dimen/fab_margin_bottom"
+        android:focusable="true" />
+
+
+</android.support.design.widget.CoordinatorLayout>

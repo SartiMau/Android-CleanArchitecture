@@ -8,4 +8,6 @@
     <string name="empty_string"></string>
     <string name="close_message">CLOSE</string>
     <string name="image_dialog">IMAGE</string>
+    <string name="fab_save_ok">Images saved correctly.</string>
+    <string name="fab_save_error">Unsaved images</string>
 </resources>
