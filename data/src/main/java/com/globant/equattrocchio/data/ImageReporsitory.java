@@ -8,7 +8,7 @@ import java.util.List;
 import io.realm.Realm;
 
 
-public class RealmDB {
+public class ImageReporsitory {
 
     private static final String ID = "id";
 
@@ -20,14 +20,16 @@ public class RealmDB {
         for (Image image : images) {
             int id = image.getId();
 
-            if(realm.where(ImageEntity.class).equalTo(ID, id).count() == 0){
-                ImageEntity iEntity = realm.createObject(ImageEntity.class, id);
+            ImageEntity iEntity = realm.where(ImageEntity.class).equalTo(ID, id).findFirst();
 
-                iEntity.setUrl(image.getUrl());
-                iEntity.setLargeUrl(image.getLargeUrl());
-
-                realm.insertOrUpdate(iEntity);
+            if (iEntity == null) {
+                iEntity = realm.createObject(ImageEntity.class, id);
             }
+
+            iEntity.setUrl(image.getUrl());
+            iEntity.setLargeUrl(image.getLargeUrl());
+
+            realm.insertOrUpdate(iEntity);
         }
         realm.commitTransaction();
     }

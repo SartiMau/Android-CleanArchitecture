@@ -83,7 +83,7 @@ public class ImagesServicesImpl implements ImagesServices {
             @Override
             public void onResponse(Call<GetLatestImagesResponse> call, Response<GetLatestImagesResponse> response) {
                 List<Image> images = transformCompleteImages(response.body());
-                RealmDB.insertImages(images);
+                ImageReporsitory.insertImages(images);
                 observer.onNext(images);
             }
 

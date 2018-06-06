@@ -23,9 +23,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Realm.init(this);
-
-
         GetLatestImagesUseCase getLatestImagesUseCase = new GetLatestImagesUseCase(new ImagesServicesImpl());
         GetSpecificImageUseCase getSpecificImageUseCase = new GetSpecificImageUseCase(new ImagesServicesImpl());
         SaveImagesUseCase saveImagesUseCase = new SaveImagesUseCase(new ImagesServicesImpl());
