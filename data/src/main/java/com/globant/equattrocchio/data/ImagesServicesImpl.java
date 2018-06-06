@@ -68,6 +68,32 @@ public class ImagesServicesImpl implements ImagesServices {
         });
     }
 
+    @Override
+    public void saveImage(final Observer<List<Image>> observer) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        SplashbaseApi api  = retrofit.create(SplashbaseApi.class);
+
+        Call<GetLatestImagesResponse> call = api.getImages();
+
+        call.enqueue(new Callback<GetLatestImagesResponse>() {
+            @Override
+            public void onResponse(Call<GetLatestImagesResponse> call, Response<GetLatestImagesResponse> response) {
+                List<Image> images = transformCompleteImages(response.body());
+                RealmDB.insertImages(images);
+                observer.onNext(images);
+            }
+
+            @Override
+            public void onFailure(Call<GetLatestImagesResponse> call, Throwable t) {
+                observer.onError(t);
+            }
+        });
+    }
+
     private Image transformImage(ImageResponse imageResponse) {
         Image image = new Image(imageResponse.getId(), imageResponse.getUrl(), imageResponse.getLargeUrl());
 
@@ -78,6 +104,15 @@ public class ImagesServicesImpl implements ImagesServices {
         List<Image> images = new ArrayList<Image>();
         for (ImageResponse imageResponse : getLatestImagesResponse.getImages()) {
             images.add(new Image(imageResponse.getId(), imageResponse.getUrl()));
+        }
+
+        return images;
+    }
+
+    private List<Image> transformCompleteImages(GetLatestImagesResponse getLatestImagesResponse) {
+        List<Image> images = new ArrayList<Image>();
+        for (ImageResponse imageResponse : getLatestImagesResponse.getImages()) {
+            images.add(new Image(imageResponse.getId(), imageResponse.getUrl(), imageResponse.getLargeUrl()));
         }
 
         return images;

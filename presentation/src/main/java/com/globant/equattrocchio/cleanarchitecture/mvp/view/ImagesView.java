@@ -1,18 +1,18 @@
 package com.globant.equattrocchio.cleanarchitecture.mvp.view;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.globant.equattrocchio.cleanarchitecture.R;
 import com.globant.equattrocchio.cleanarchitecture.mvp.view.adapters.ImagesAdapter;
 import com.globant.equattrocchio.cleanarchitecture.mvp.view.base.ImageDialogFragment;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.RxBus;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.CallServiceButtonObserver;
-import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.CallServiceCardObserver;
+import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.SaveImageFabObserver;
 import com.globant.equattrocchio.domain.enities.Image;
 
 import java.util.List;
@@ -61,6 +61,19 @@ public class ImagesView extends ActivityView {
         if(context != null){
             ImageDialogFragment.newInstance(image).show(getFragmentManager(), context.getResources().getString(R.string.image_dialog));
         }
+    }
+
+    @OnClick(R.id.fabSaveRealm)
+    public void saveImageFabPressed(){
+        RxBus.post(new SaveImageFabObserver.SaveImageFabPressed());
+    }
+
+    public void showSaveImagesOk() {
+        Toast.makeText(getContext(), getContext().getText(R.string.fab_save_ok), Toast.LENGTH_SHORT).show();
+    }
+
+    public void showSaveImagesError() {
+        Toast.makeText(getContext(), getContext().getText(R.string.fab_save_error), Toast.LENGTH_SHORT).show();
     }
 }
 
