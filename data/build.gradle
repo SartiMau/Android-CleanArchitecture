@@ -1,4 +1,18 @@
 apply plugin: 'com.android.library'
+apply plugin: 'realm-android'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "io.realm:realm-gradle-plugin:5.2.0"
+    }
+}
+
+realm {
+    syncEnabled = true;
+}
 
 android {
     compileSdkVersion 26
@@ -12,6 +26,7 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        buildConfigField "String", "BASE_URL", "\"http://splashbase.co/\""
     }
     buildTypes {
         release {

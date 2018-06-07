@@ -1,11 +1,6 @@
 package com.globant.equattrocchio.cleanarchitecture.mvp.view.base;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.app.DialogFragment;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;

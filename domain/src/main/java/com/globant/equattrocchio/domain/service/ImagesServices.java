@@ -12,4 +12,6 @@ public interface ImagesServices {
     void getLatestImages(Observer<List<Image>> observer);
 
     void getSpecificImage(Observer<Image> observer, int id);
+
+    void saveImage(Observer<List<Image>> observer);
 }

@@ -2,12 +2,14 @@ package com.globant.equattrocchio.cleanarchitecture.mvp.presenter;
 
 import android.app.Activity;
 
-import com.globant.equattrocchio.cleanarchitecture.util.bus.RxBus;
 import com.globant.equattrocchio.cleanarchitecture.mvp.view.ImagesView;
+import com.globant.equattrocchio.cleanarchitecture.util.bus.RxBus;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.CallServiceButtonObserver;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.CallServiceCardObserver;
+import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.SaveImageFabObserver;
 import com.globant.equattrocchio.domain.GetLatestImagesUseCase;
 import com.globant.equattrocchio.domain.GetSpecificImageUseCase;
+import com.globant.equattrocchio.domain.SaveImagesUseCase;
 import com.globant.equattrocchio.domain.enities.Image;
 
 import java.util.List;
@@ -20,11 +22,13 @@ public class ImagesPresenter {
     private ImagesView view;
     private GetLatestImagesUseCase getLatestImagesUseCase;
     private GetSpecificImageUseCase getSpecificImageUseCase;
+    private SaveImagesUseCase saveImagesUseCase;
 
-    public ImagesPresenter(ImagesView view, GetLatestImagesUseCase getLatestImagesUseCase, GetSpecificImageUseCase getSpecificImageUseCase) {
+    public ImagesPresenter(ImagesView view, GetLatestImagesUseCase getLatestImagesUseCase, GetSpecificImageUseCase getSpecificImageUseCase, SaveImagesUseCase saveImagesUseCase) {
         this.view = view;
         this.getLatestImagesUseCase = getLatestImagesUseCase;
         this.getSpecificImageUseCase = getSpecificImageUseCase;
+        this.saveImagesUseCase = saveImagesUseCase;
     }
 
     private void onCallServiceButtonPressed() {
@@ -39,14 +43,14 @@ public class ImagesPresenter {
 
             @Override
             public void onError(@NonNull Throwable e) {
-               view.showError();
+                view.showError();
             }
 
             @Override
             public void onComplete() {
 
             }
-        },null);
+        }, null);
     }
 
     private void onCallServiceCardPressed(int id) {
@@ -68,6 +72,26 @@ public class ImagesPresenter {
         }, id);
     }
 
+    private void onSaveImageFabPressed() {
+        saveImagesUseCase.execute(new DisposableObserver<List<Image>>() {
+            @Override
+            public void onNext(@NonNull List<Image> images) {
+                view.showSaveImagesOk();
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                view.showSaveImagesError();
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        }, null);
+    }
+
+
 
 
 
@@ -77,7 +101,7 @@ public class ImagesPresenter {
     public void register() {
         Activity activity = view.getActivity();
 
-        if (activity==null){
+        if (activity == null) {
             return;
         }
 
@@ -94,12 +118,19 @@ public class ImagesPresenter {
                 onCallServiceCardPressed(event.getCardImageId());
             }
         });
+
+        RxBus.subscribe(activity, new SaveImageFabObserver() {
+            @Override
+            public void onEvent(SaveImageFabPressed event) {
+                onSaveImageFabPressed();
+            }
+        });
     }
 
     public void unregister() {
         Activity activity = view.getActivity();
 
-        if (activity==null){
+        if (activity == null) {
             return;
         }
         RxBus.clear(activity);
