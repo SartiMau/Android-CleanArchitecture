@@ -1,5 +1,6 @@
 package com.globant.equattrocchio.data;
 
+import com.globant.equattrocchio.data.repository.ImagesRepository;
 import com.globant.equattrocchio.data.response.GetLatestImagesResponse;
 import com.globant.equattrocchio.data.response.ImageResponse;
 import com.globant.equattrocchio.data.service.api.SplashbaseApi;
@@ -18,12 +19,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ImagesServicesImpl implements ImagesServices {
 
-    private static final String URL = "http://splashbase.co/";
-
     @Override
     public void getLatestImages(final Observer<List<Image>> observer) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
+                .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -47,7 +46,7 @@ public class ImagesServicesImpl implements ImagesServices {
     @Override
     public void getSpecificImage(final Observer<Image> observer, int id) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
+                .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -71,7 +70,7 @@ public class ImagesServicesImpl implements ImagesServices {
     @Override
     public void saveImage(final Observer<List<Image>> observer) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
+                .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -83,7 +82,8 @@ public class ImagesServicesImpl implements ImagesServices {
             @Override
             public void onResponse(Call<GetLatestImagesResponse> call, Response<GetLatestImagesResponse> response) {
                 List<Image> images = transform(response.body());
-                ImagesRepository.insertImages(images);
+                ImagesRepository imagesRepository = new ImagesRepositoryImpl();
+                imagesRepository.insertImages(images);
                 observer.onNext(images);
             }
 

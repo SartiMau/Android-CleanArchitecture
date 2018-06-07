@@ -1,6 +1,7 @@
 package com.globant.equattrocchio.data;
 
 import com.globant.equattrocchio.data.entities.ImageEntity;
+import com.globant.equattrocchio.data.repository.ImagesRepository;
 import com.globant.equattrocchio.domain.enities.Image;
 
 import java.util.List;
@@ -8,11 +9,19 @@ import java.util.List;
 import io.realm.Realm;
 
 
-public class ImagesRepository {
+public class ImagesRepositoryImpl implements ImagesRepository {
 
     private static final String ID = "id";
 
-    public static void insertImages(List<Image> images) {
+    @Override
+    public ImageEntity getById(int id) {
+        Realm realm = Realm.getDefaultInstance();
+
+        return realm.where(ImageEntity.class).equalTo(ID, id).findFirst();
+    }
+
+    @Override
+    public void insertImages(List<Image> images) {
         Realm realm = Realm.getDefaultInstance();
 
         realm.beginTransaction();
@@ -20,7 +29,7 @@ public class ImagesRepository {
         for (Image image : images) {
             int id = image.getId();
 
-            ImageEntity iEntity = realm.where(ImageEntity.class).equalTo(ID, id).findFirst();
+            ImageEntity iEntity = getById(id);
 
             if (iEntity == null) {
                 iEntity = realm.createObject(ImageEntity.class, id);

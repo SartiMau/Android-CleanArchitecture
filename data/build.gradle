@@ -26,6 +26,7 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        buildConfigField "String", "BASE_URL", "\"http://splashbase.co/\""
     }
     buildTypes {
         release {
