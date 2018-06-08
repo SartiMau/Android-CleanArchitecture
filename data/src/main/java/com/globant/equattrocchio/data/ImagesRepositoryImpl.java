@@ -1,20 +1,23 @@
 package com.globant.equattrocchio.data;
 
 import com.globant.equattrocchio.data.entities.ImageEntity;
-import com.globant.equattrocchio.data.repository.ImagesRepository;
 import com.globant.equattrocchio.domain.enities.Image;
+import com.globant.equattrocchio.domain.repository.ImagesRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 
 
 public class ImagesRepositoryImpl implements ImagesRepository {
 
     private static final String ID = "id";
 
-    @Override
-    public ImageEntity getById(int id) {
+    public ImageEntity getById(long id) {
         Realm realm = Realm.getDefaultInstance();
 
         return realm.where(ImageEntity.class).equalTo(ID, id).findFirst();
@@ -26,8 +29,12 @@ public class ImagesRepositoryImpl implements ImagesRepository {
 
         realm.beginTransaction();
 
+        //delete all data from Realm to test the Listener
+        realm.deleteAll();
+        //delete all data from Realm to test the Listener
+
         for (Image image : images) {
-            int id = image.getId();
+            long id = image.getId();
 
             ImageEntity iEntity = getById(id);
 
@@ -41,5 +48,41 @@ public class ImagesRepositoryImpl implements ImagesRepository {
             realm.insertOrUpdate(iEntity);
         }
         realm.commitTransaction();
+    }
+
+    @Override
+    public List<Image> loadAllImages() {
+        Realm realm = Realm.getDefaultInstance();
+
+        RealmResults<ImageEntity> realmImages = realm.where(ImageEntity.class).findAll();
+
+        return transform(realmImages);
+    }
+
+    @Override
+    public Object getAllImageEntities(){
+        Realm realm = Realm.getDefaultInstance();
+
+        return realm.where(ImageEntity.class).findAll();
+    }
+
+    @Override
+    public void deleteImage(int id) {
+        Realm realm = Realm.getDefaultInstance();
+
+        realm.beginTransaction();
+
+        ImageEntity iEntity = getById(id);
+        iEntity.deleteFromRealm();
+
+        realm.commitTransaction();
+    }
+
+    private List<Image> transform(RealmResults<ImageEntity> realmImages) {
+        List<Image> images = new ArrayList<Image>();
+        for (ImageEntity image : realmImages) {
+            images.add(new Image((int) image.getId(), image.getUrl(), image.getLargeUrl()));
+        }
+        return images;
     }
 }

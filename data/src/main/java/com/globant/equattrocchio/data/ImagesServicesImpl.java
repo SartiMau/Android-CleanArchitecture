@@ -1,6 +1,6 @@
 package com.globant.equattrocchio.data;
 
-import com.globant.equattrocchio.data.repository.ImagesRepository;
+import com.globant.equattrocchio.domain.repository.ImagesRepository;
 import com.globant.equattrocchio.data.response.GetLatestImagesResponse;
 import com.globant.equattrocchio.data.response.ImageResponse;
 import com.globant.equattrocchio.data.service.api.SplashbaseApi;

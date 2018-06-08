@@ -12,13 +12,20 @@
         android:layout_height="@dimen/btn_height"
         android:text="@string/call_service" />
 
+    <Button
+        android:id="@+id/btn_load_images"
+        android:layout_width="@dimen/btn_widht"
+        android:layout_height="@dimen/btn_height"
+        android:layout_marginTop="@dimen/btn_load_margin_top"
+        android:text="@string/load_images_from_db" />
+
     <TextView
         android:id="@+id/tv_incoming_json"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_json_margin_top"
         android:enabled="false"
-        android:text="@string/empty_string"
-        android:layout_marginTop="@dimen/text_json_margin_top"/>
+        android:text="@string/empty_string" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -38,12 +45,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:clickable="true"
-        app:backgroundTint="@android:color/holo_red_dark"
-        app:srcCompat="@android:drawable/ic_menu_save"
-        android:layout_marginRight="@dimen/fab_margin_right"
         android:layout_marginBottom="@dimen/fab_margin_bottom"
-        android:focusable="true" />
+        android:layout_marginRight="@dimen/fab_margin_right"
+        android:clickable="true"
+        android:focusable="true"
+        app:backgroundTint="@android:color/holo_red_dark"
+        app:srcCompat="@android:drawable/ic_menu_save" />
 
 
 </android.support.design.widget.CoordinatorLayout>
