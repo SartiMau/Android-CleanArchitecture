@@ -52,7 +52,7 @@ public class ImagesPresenter {
         loadImagesUseCase.addChangeListener(changeListener);
     }
 
-    private void onCallServiceButtonPressed() {
+    public void onCallServiceButtonPressed() {
 
         view.hideError();
 
@@ -74,7 +74,7 @@ public class ImagesPresenter {
         }, null);
     }
 
-    private void onCallServiceCardPressed(int id) {
+    public void onCallServiceCardPressed(int id) {
         getSpecificImageUseCase.execute(new DisposableObserver<Image>() {
             @Override
             public void onNext(@NonNull Image images) {
@@ -93,7 +93,7 @@ public class ImagesPresenter {
         }, id);
     }
 
-    private void onSaveImageFabPressed() {
+    public void onSaveImageFabPressed() {
         saveImagesUseCase.execute(new DisposableObserver<List<Image>>() {
             @Override
             public void onNext(@NonNull List<Image> images) {
@@ -112,7 +112,7 @@ public class ImagesPresenter {
         }, null);
     }
 
-    private void onLoadImagesButtonPressed() {
+    public void onLoadImagesButtonPressed() {
         List<Image> images = loadImagesUseCase.loadAllImages();
 
         view.showImagesInCardView(images);
