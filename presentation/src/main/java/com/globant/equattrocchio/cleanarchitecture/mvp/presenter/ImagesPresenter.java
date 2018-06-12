@@ -32,7 +32,6 @@ public class ImagesPresenter {
     private SaveImagesUseCase saveImagesUseCase;
     private LoadImagesUseCase loadImagesUseCase;
 
-    private RealmResults<ImageEntity> images;
     private RealmChangeListener changeListener;
 
     public ImagesPresenter(final ImagesView view, GetLatestImagesUseCase getLatestImagesUseCase, GetSpecificImageUseCase getSpecificImageUseCase, SaveImagesUseCase saveImagesUseCase, LoadImagesUseCase loadImagesUseCase) {
@@ -42,19 +41,15 @@ public class ImagesPresenter {
         this.saveImagesUseCase = saveImagesUseCase;
         this.loadImagesUseCase = loadImagesUseCase;
 
-
-        images = (RealmResults<ImageEntity>) loadImagesUseCase.getAllImageEntities();
-
-        changeListener = new RealmChangeListener() {
+        changeListener = new RealmChangeListener<RealmResults<ImageEntity>>() {
             @Override
-            public void onChange(Object result) {
-                view.showImagesInCardView(transform((RealmResults<ImageEntity>) result));
+            public void onChange(RealmResults<ImageEntity> result) {
+                view.showImagesInCardView(transform(result));
                 view.showUpdate();
                 view.showLoadImagesOk();
             }
         };
-
-        images.addChangeListener(changeListener);
+        loadImagesUseCase.addChangeListener(changeListener);
     }
 
     private void onCallServiceButtonPressed() {

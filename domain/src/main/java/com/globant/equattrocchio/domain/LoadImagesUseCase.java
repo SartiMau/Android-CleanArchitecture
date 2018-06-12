@@ -5,6 +5,8 @@ import com.globant.equattrocchio.domain.repository.ImagesRepository;
 
 import java.util.List;
 
+import io.realm.RealmChangeListener;
+
 public class LoadImagesUseCase {
 
     private ImagesRepository imagesRepository;
@@ -17,7 +19,7 @@ public class LoadImagesUseCase {
         return imagesRepository.loadAllImages();
     }
 
-    public Object getAllImageEntities() {
-        return imagesRepository.getAllImageEntities();
+    public void addChangeListener(RealmChangeListener changeListener) {
+        imagesRepository.addChangeListener(changeListener);
     }
 }

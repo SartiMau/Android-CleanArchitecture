@@ -7,7 +7,6 @@ import com.globant.equattrocchio.domain.repository.ImagesRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -16,6 +15,7 @@ import io.realm.RealmResults;
 public class ImagesRepositoryImpl implements ImagesRepository {
 
     private static final String ID = "id";
+    private RealmResults<ImageEntity> images;
 
     public ImageEntity getById(long id) {
         Realm realm = Realm.getDefaultInstance();
@@ -60,10 +60,12 @@ public class ImagesRepositoryImpl implements ImagesRepository {
     }
 
     @Override
-    public Object getAllImageEntities(){
+    public void addChangeListener(RealmChangeListener realmChangeListener){
         Realm realm = Realm.getDefaultInstance();
 
-        return realm.where(ImageEntity.class).findAll();
+        images = realm.where(ImageEntity.class).findAll();
+
+        images.addChangeListener(realmChangeListener);
     }
 
     @Override

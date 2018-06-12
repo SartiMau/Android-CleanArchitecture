@@ -4,13 +4,15 @@ import com.globant.equattrocchio.domain.enities.Image;
 
 import java.util.List;
 
+import io.realm.RealmChangeListener;
+
 public interface ImagesRepository {
 
     void insertImages(List<Image> images);
 
     List<Image> loadAllImages();
 
-    Object getAllImageEntities();
+    void addChangeListener(RealmChangeListener changeListener);
 
     void deleteImage(int id);
 }
