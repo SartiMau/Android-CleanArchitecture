@@ -10,4 +10,7 @@
     <string name="image_dialog">IMAGE</string>
     <string name="fab_save_ok">Images saved correctly.</string>
     <string name="fab_save_error">Unsaved images</string>
+    <string name="load_images_from_db">LOAD IMAGES FROM DB</string>
+    <string name="load_images_from_db_ok">Images loaded correctly.</string>
+    <string name="images_updated">Images updated</string>
 </resources>

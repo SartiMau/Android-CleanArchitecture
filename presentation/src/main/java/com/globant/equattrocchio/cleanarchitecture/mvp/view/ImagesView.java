@@ -12,6 +12,7 @@ import com.globant.equattrocchio.cleanarchitecture.mvp.view.adapters.ImagesAdapt
 import com.globant.equattrocchio.cleanarchitecture.mvp.view.base.ImageDialogFragment;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.RxBus;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.CallServiceButtonObserver;
+import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.LoadImagesButtonObserver;
 import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.SaveImageFabObserver;
 import com.globant.equattrocchio.domain.enities.Image;
 
@@ -74,6 +75,20 @@ public class ImagesView extends ActivityView {
 
     public void showSaveImagesError() {
         Toast.makeText(getContext(), getContext().getText(R.string.fab_save_error), Toast.LENGTH_SHORT).show();
+    }
+
+    public void showLoadImagesOk() {
+        Toast.makeText(getContext(), getContext().getText(R.string.load_images_from_db_ok), Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.btn_load_images)
+    public void loadImagesBtnPressed() {
+        RxBus.post(new LoadImagesButtonObserver.LoadImagesButtonPressed());
+    }
+
+    public void showUpdate() {
+        tvlabel.setEnabled(true);
+        tvlabel.setText(R.string.images_updated);
     }
 }
 
